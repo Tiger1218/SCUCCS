@@ -1,0 +1,191 @@
+<HTML>
+<head>
+<link rel=stylesheet href="/css/cteform.css" type="text/css">
+<title>Practice 1: Decoding Lab &amp;copy; 2002-2005 iCarnegie, Inc. - UI Version 3.15</title>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache"><META HTTP-EQUIV="Expires" CONTENT="-1"><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><script language="JavaScript" src="/js/cteform.js"></script>
+<script language="JavaScript" src="/js/ctecoursespt.js"></script>
+<script language="JavaScript1.2">
+CTEUtils_ImgDirURL = "/img";
+CTEUtils_CssDirURL = "/css";
+CTEUtils_JsDirURL = "/js";
+</script>
+<script language="JavaScript1.2" src="/js/ctesortable.js"></script><script language="JavaScript">var filelisting_2608734_tbl_info = new Array();
+filelisting_2608734_tbl_info[1] = new Array();
+filelisting_2608734_tbl_info[1]["name"] = "Size";
+filelisting_2608734_tbl_info[1]["type"] = "number";
+filelisting_2608734_tbl_info[2] = new Array();
+filelisting_2608734_tbl_info[2]["name"] = "Status";
+filelisting_2608734_tbl_info[2]["type"] = "string";
+filelisting_2608734_tbl_info[3] = new Array();
+filelisting_2608734_tbl_info[3]["name"] = "File Type";
+filelisting_2608734_tbl_info[3]["type"] = "string";
+filelisting_2608734_tbl_info[4] = new Array();
+filelisting_2608734_tbl_info[4]["name"] = "Download";
+filelisting_2608734_tbl_info[4]["type"] = "string";
+var filelisting_2608734_tbl = new Object;
+filelisting_2608734_tbl.name = 'filelisting_2608734_tbl';
+filelisting_2608734_tbl.info = filelisting_2608734_tbl_info;
+var Assm = new Object;
+Assm.name = 'Assm';
+Assm.postRenderings = new Array();
+</script></head><BODY onLoad="" bgcolor="#FFFFFF" topmargin="0" leftmargin="0">
+<p align="center"><font size="5">Decoding Lab </font></p>
+<p>&nbsp;</p>
+<table><tr>
+<td width=5><br></td>  <td valign=top class=td0_x align=left > <! DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN"><!-- #BeginEditable "doctitle" --><!-- #EndEditable -->
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top" width="2%"></td>
+    <td valign="top" width="96%"></td>
+    <td valign="top" width="2%"></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><!-- start typing here-->
+
+      <h2><!-- #BeginEditable "title" -->Decoding Lab: Understanding a Secret Message<!-- #EndEditable --></h2>
+	  <p>
+You have just intercepted an encoded message.  The message is a sequence of
+bits which reads as follows in hexadecimal:
+<blockquote>
+<pre>
+6363636363636363724646636F6D6F72
+466D203A65693A7243646E206F54540A
+5920453A54756F0A6F6F470A21643A6F
+594E2020206F776F797275744563200A
+6F786F686E6963736C206765796C656B
+2C3365737420346E20216F74726F5966
+7565636F202061206C61676374206C6F
+20206F74747865656561727632727463
+6E617920680A64746F69766120646E69
+21687467630020656C6C786178742078
+6578206F727478787863617800783174
+</pre>
+</blockquote>
+You have no idea how to decode it, but you know that your grade depends on it, 
+      so you are willing to do <em>anything</em> to extract the message. Fortunately, 
+      one of your many agents on the field has stolen the source code for the 
+      decoder. This agent (007) has put the code and the message in the file <a href="Exercise1/Handout/secret.cpp">secret.cpp</a>, 
+      which you can <a href="Exercise1/Handout/secret.cpp">download</a> from the laboratory of your 
+      technical staff (Q). 
+      <p> Q has noticed that the decoder takes four integers as arguments. Executing 
+        the decoder with various arguments seems to either crash the program or 
+        produce unintelligible output. It seems that the correct four integers 
+        have to be chosen in order for the program to produce the decoded message. 
+        These four integers are the "secret keys." 
+      <p> 007 has been unable to find the keys, but from the desk of the encrypting 
+        personnel he was able to cunningly retrieve the first five characters 
+        of the unencoded message. These characters are: 
+      <blockquote>
+<pre>From:</pre>
+</blockquote>
+	  <p>
+<h3>Assignment</h3>
+Your assignment is to decode the message, and find the keys.
+	  <p>
+<h3>Reminders</h3>
+This exercise is not extremely difficult.  However,
+the strategy of trying things until something works will be ineffective.
+Try to understand the material in the course, particularly the following:
+<ul>
+<li>
+Memory contains nothing but bits.  Bits
+are interpreted as integers, characters,
+or instructions by the compiler, but they have no intrinsic type 
+in memory.
+        <li> The compiler can be strong-armed into interpreting integers as characters, 
+          or even as instructions, and vice versa. 
+                
+        <li> Every group of 8 bits (a byte) has an address. 
+        <li> A pointer in C is merely a stored memory address. 
+        <li>
+The activation records for each function call are all together in memory,
+and they are organized in a stack that grows downwards and shrinks upwards
+on function calls and returns respectively.
+        <li> The return address of one function as well as the addresses of all 
+          of its local variables are allocated within one activation record. 
+      </ul>
+	  <p>
+<h3>Strategy</h3>
+ 
+The designers of this decoder weren't very good.  They made it possible
+for us to attack the keys in two independent parts.  Try to break the
+first two keys first, and do not try to break the third and fourth
+keys until you have succeeded with the first two.
+	  <p>
+You can do the first part by specifying only two integer arguments when
+you execute the decoder.  If you get the first and second keys right,
+a message that starts with <tt>From:</tt> will appear.  This message
+is not the true message, but a decoy.  It is useful, however, to 
+let you know that you have indeed broken the first two keys.
+	  <p>
+In breaking the first two keys, realize that the function
+<code>process_keys12</code> must be somehow changing the value of the
+<code>dummy</code> variable.  This must be so, because the variables
+<code>start</code> and <code>stride</code> control the extraction
+of the message, and they are calculated from the value of <code>dummy</code>.
+	  <p>
+In breaking the third and fourth keys, try to get the code to invoke 
+<code>extract_message2</code> <em>instead</em> of 
+<code>extract_message1</code>.  This modification must somehow be controlled
+from within the function <code>process_keys34</code>.
+	  <p>
+<h3>Files</h3>
+	  
+      <p> When you are done, write a brief report that includes at least the following: 
+      <ol>	      
+<li>
+The secret message.
+<li>
+The secret keys.
+<li>
+One paragraph describing, in your own prose, what <code>process_keys12</code>
+does.  For example, you might say that it modifies a specific program variable.
+        <li> The meaning of the first two keys in terms of variables and addresses 
+          in the decoder program. For example, you might describe <code>key2</code> 
+          by saying that its X-Y bits contain the value to which variable <code>start</code> 
+          is set. Or you might describe <code>key1</code> by saying, for example, 
+          that it must be set equal to the number of memory addresses separating 
+          the address of two specific variables. These are only examples. 
+        <li>
+One paragraph describing, in your own prose, what <code>process_keys34</code>
+does.   
+<li>
+One paragraph describing the line of source code that is executed when
+the first call to <code>process_keys34</code> returns.
+<li>
+The meaning of the third and fourth keys in terms of variables and addresses
+in the decoder program.  
+</ol>
+Be precise, clear, and brief in each of the points above. Your report should not, 
+      in any case, be longer than one page. Do not get frustrated if this takes 
+      a little longer than you expected: brief and clear text often requires more 
+      time to write than rambling prose. 
+      <p> Your teacher can tell you what word processors you may use to write 
+        your report. Chances are that you can write your report in a number of 
+        formats, and for simplicity's sake, you might even want to write it using 
+        Notepad. 
+      <p>
+Enjoy!
+	  <p>      <!-- end typing here--> </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td class="footer"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+</table>
+<td width=5><br>
+</td>
+</body>
+</html>
+ 
+ 
+
