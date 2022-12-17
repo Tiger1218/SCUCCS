@@ -97,6 +97,9 @@ int main (int argc, char *argv[])
 	}
 	key1 = strtol(argv[1], NULL, 0);
 	key2 = strtol(argv[2], NULL, 0);
+
+	printf("%d %d\n", key1, key2);
+
 	if (argc > 3) key3 = strtol(argv[3], NULL, 0);
 	if (argc > 4) key4 = strtol(argv[4], NULL, 0);
 
