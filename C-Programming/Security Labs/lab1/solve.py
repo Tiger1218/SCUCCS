@@ -19,7 +19,5 @@ for num in data:
         real_data.append(num % 0x100)
         num //= 0x100
 
-print(len(real_data))
-
-print([hex(i)[2:].ljust(2, " ") for i in real_data])
-print("".join([chr(i) for i in real_data]))
+print("real_data = ", [hex(i)[2:].ljust(2, " ") for i in real_data])
+print(("real_string = '" + "".join([chr(i) for i in real_data]) + "'").replace("\n", r"\n"))
