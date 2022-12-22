@@ -12,25 +12,16 @@
 #include <unistd.h>
 #include <stdint.h>
 
-void hack_me();
 void linux_setting();
 void try_gdb();
 void endianness();
+uint64_t substack();
 void stack();
-void hijack_rip();
-
 
 int data_int[] = {0xd25f2f67, 0xaad200ad, 0xa505c8ac, 0x6d295f2, 0x5c1e76d2, 0x426cba27, 0x38363bb2, 0xd930942f, 0x3b4fe71c, 0x23b0eaae};
 char data_chr[] = "Wubba Lubba Dub Dub!";
-void * data_pointer[] = {printf, puts, scanf, hack_me, linux_setting, try_gdb, endianness, stack, hijack_rip};
+void * data_pointer[] = {printf, puts, scanf, linux_setting, try_gdb, endianness, substack, stack};
 char shellcode[0x50];
-uint64_t pointer, end;
-
-
-void hack_me(){
-    puts("Good job!");
-    puts("");
-}
 
 void linux_setting(){
     /* 
@@ -55,10 +46,11 @@ void linux_setting(){
 
 void try_gdb(){
     /*
-     * In this section you need to learn how to use the strongest debugger, gdb.
+     * In this section you will learn how to use the strongest debugger, gdb.
      * This a gdb tutorial : https://www.cs.umd.edu/~srhuang/teaching/cmsc212/gdb-tutorial-handout.pdf . You should learn it before the following part start."
      * (Checkpoint IV) Debug this program using gdb. First you need to recompile this program by `gcc lab0.c -o lab0 -g`, which will add debug info to the binary.
      * (Checkpoint V) Break the program on line XX or addr displayed, than print the variable randnum. Continue and input that num.
+     * (Interlude) Random number
      */
     uint64_t rip;
     srand(time(0));
@@ -80,7 +72,8 @@ void try_gdb(){
 
 void endianness(){
     /*
-     * In this section, you need to learn about [endianness](https://en.wikipedia.org/wiki/Endianness) first.
+     * In this section, you will learn about endianness.
+     * First, you need to read the [wikipedia page](https://en.wikipedia.org/wiki/Endianness). 
      * View the memory where data_int, data_chr, data_pointer stored and see how little endian works.
      * (Checkpoint VI) Input numbers and see the value of *(int *)fina using gdb
      * (Checkpoint VII) Pass this level.
@@ -108,30 +101,45 @@ uint64_t substack(){
 }
 
 void stack(){
-    printf("%08lx\n", (uint64_t)stack);
-    // asm volatile("1: lea 1b(%%rbp), %0;": "=a"(rbp));
+    /* 
+     * This section you will learn C Function Call Stack.
+     * Well, I must warn you, this level is **very** difficult. But daijoubu! With perseverance and willingness to learn, I believe you can make it.
+     * You need to install `binutils` in order to gain `objdump` command.
+     * Recompile this source code with `gcc lab0.c -o lab0 -g -fno-stack-protector`
+     * (Interlude) [What's canary & why we ban it?](https://en.wikipedia.org/wiki/Buffer_overflow_protection#Canaries)
+     * (Checkpoint VIII) Use `objdump -d lab0` ,find the assembly code of function `stack` and `substack`, than **skim** it. Focus on the stack operations.
+     * (trouble shooting) Use `objdump -d lab0 -M intel` if you think the Intel style is better the AT&T style.
+     * You must read [this article](https://www.cnblogs.com/clover-toeic/p/3755401.html) before the following tasks begin.
+     * (Checkpoint IX) Finish 
+     * 4 hints are given: 1. the structure of the stack is like [local varieable] + [stored rbp] + [stored rip] + [local varieable]
+     *                    2. ignore the local varieable starts with `register`, they are assigned storage method.
+     *                    3. consider the offset between the start addr of function `stack` and the [stored rip]
+     *                    4. consider the offset between the addr of varies0 and the [stored rbp]
+     * Why ?
+     * Well if you find it's too difficult, you can run `set SECURITY_DEBUG=1` and restart the program. Than it will show you the stack. 
+     */
     char varies0[8] = "ABCDEFGH";
     int varies1 = 0x12345678;
     int varies2 = 0x90abcdef;
     register int* a = &varies1;
     register int* b = &varies2;
-    end = substack();
-    // printf("%p %p\n", (uint64_t)varies0, end);
-    // printf("%p\n", stack);
-    for(pointer = end; pointer <= (uint64_t)varies0 ; pointer += 8){
-        // int td;
-        printf("0x%lx : %8lx\n", pointer, *(uint64_t *)(pointer));
-        // scanf("%d", &td);
-        // if(td != *(int *)(i)){
-        //     printf("%p wrong. \n", i);
-        //     exit(0);
-        // }
+    register int count = 0;
+    register uint64_t end = substack();
+    printf("%08lx\n", (uint64_t)stack);
+    printf("%08lx\n", (uint64_t)varies0);
+    for(register uint64_t pointer = end; pointer <= (uint64_t)varies0 ; pointer += 8){
+        if(!strcmp(getenv("SECURITY_DEBUG"), "1")){
+            printf("0x%lx : %8lx\n", pointer, *(uint64_t *)(pointer));
+            continue;
+        }
+        uint64_t input;
+        scanf("%lu", &input);
+        if(input != *(uint64_t *)(pointer)){
+            puts("Fail.");
+            exit(0);
+        }
+        count ++;
     }
-
-}
-
-void hijack_rip(){
-    // pass
 }
 
 int main(){
@@ -143,12 +151,10 @@ int main(){
      * If you have any problem solving this lab and you are sure that I'm the screw-up, plz email me at tiger1218 [at] foxmail.com!
      * Enjoy your journey!
      */
-    // linux_setting();
-    // // try_gdb();
-    // endianness();
+    linux_setting();
+    // try_gdb();
+    endianness();
     stack();
-    // hijack_rip();
-
 
     return 0;
 }
