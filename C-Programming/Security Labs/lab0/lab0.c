@@ -103,11 +103,12 @@ void endianness(){
 }
 
 uint64_t substack(){
-    uint64_t varies3 = 0xdeadbeef;
+    uint64_t varies3 = 0xdeadbeefadcaffee;
     return (uint64_t)&varies3;
 }
 
 void stack(){
+    printf("%08lx\n", (uint64_t)stack);
     // asm volatile("1: lea 1b(%%rbp), %0;": "=a"(rbp));
     char varies0[8] = "ABCDEFGH";
     int varies1 = 0x12345678;
