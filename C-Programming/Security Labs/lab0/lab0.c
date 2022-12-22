@@ -1,6 +1,6 @@
 /*
  * A security lab for beginners to help them familar with the technology which will be used in the following labs.
- * By Tiger1218, 2022-12-22, released under the AGPL license[https://opensource.org/licenses/AGPL-3.0].
+ * By Tiger1218 & dying084, 2022-12-22, released under the AGPL license[https://opensource.org/licenses/AGPL-3.0].
  * Code for School of Cyber Science and Engineering, Sichuang University.
  */ 
 
@@ -39,9 +39,7 @@ void linux_setting(){
      * (trouble shooting) If you can't compile it due to many reasons, you can get it from my website.
      * (trouble shooting) Just run `curl https://tiger1218.com/files/lab0 --output lab0 && chmod +x lab0`.  
      */
-    puts("As you see this, I'm sure you run this program on Linux/WSL!\nSo, here's a gift for you: ");
-    puts("496620796f75207365652074686973206d65");
-    puts("------------------------------------------------------------------------------------");
+    puts("As you see this, I'm sure you run this program on Linux/WSL!");
 }
 
 void try_gdb(){
@@ -61,8 +59,6 @@ void try_gdb(){
     scanf("%d", &guessnum);
     if(guessnum == randnum){
         puts("Wow...You are correct.");
-        puts("7373616765206e6f772c20796f75206d7573");
-        puts("------------------------------------------------------------------------------------");
     }
     else{
         puts("Seems that you got wrong!");
@@ -75,24 +71,27 @@ void endianness(){
      * In this section, you will learn about endianness.
      * First, you need to read the [wikipedia page](https://en.wikipedia.org/wiki/Endianness). 
      * View the memory where data_int, data_chr, data_pointer stored and see how little endian works.
-     * (Checkpoint VI) Input numbers and see the value of *(int *)fina using gdb
+     * (Checkpoint VI) Input numbers and see the value of ans using gdb.
      * (Checkpoint VII) Pass this level.
      */
-    int data = 0xdeadbeef;
-    char fina[4];
-    for(int i = 0 ; i < 4 ; i ++){
-        int td;
-        scanf("%d", &td);
-        fina[i] = td & 0xff;
+    uint64_t a;
+    uint32_t b = 0xdeadbeef;
+    uint16_t c = 0xface;
+    uint8_t d[2] = {0xae,0xaf};
+    * (uint8_t *)&a = d[0];
+    * (uint16_t *)((uint8_t *)&a + 1) = c;
+    * (uint32_t *)((uint8_t *)&a + 3) = b;
+    * (uint8_t *)((uint8_t *)&a + 7) = d[1];
+    char ans[8];
+    for(int i = 0; i < 8 ; i++){
+        int p;
+        scanf("%d", &p);
+        ans[i] = p & 0xff;
     }
-    if(data == *(int *)fina){
-        puts("You solved it!");
-        puts("742068617665207061737365642074686520");
+    if(* (uint64_t *)ans == a){
+        puts("pass!");
     }
-    else{
-        puts("Zannen desu...");
-        exit(0);
-    }
+    else puts("try again");
 }
 
 uint64_t substack(){
@@ -129,7 +128,7 @@ void stack(){
     printf("%08lx\n", (uint64_t)varies0);
     for(register uint64_t pointer = end; pointer <= (uint64_t)varies0 ; pointer += 8){
         char *s = getenv("SECURITY_DEBUG");
-	if(s){
+        if(s){
             printf("0x%lx : %8lx\n", pointer, *(uint64_t *)(pointer));
             continue;
         }
@@ -141,6 +140,7 @@ void stack(){
         }
         count ++;
     }
+    puts("Congrations!");
 }
 
 int main(){
@@ -156,6 +156,5 @@ int main(){
     try_gdb();
     endianness();
     stack();
-
     return 0;
 }
