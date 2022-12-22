@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdint.h>
 
 void hack_me();
 void linux_setting();
@@ -23,6 +24,8 @@ int data_int[] = {0xd25f2f67, 0xaad200ad, 0xa505c8ac, 0x6d295f2, 0x5c1e76d2, 0x4
 char data_chr[] = "Wubba Lubba Dub Dub!";
 void * data_pointer[] = {printf, puts, scanf, hack_me, linux_setting, try_gdb, endianness, stack, hijack_rip};
 char shellcode[0x50];
+uint64_t pointer, end;
+
 
 void hack_me(){
     puts("Good job!");
@@ -62,7 +65,7 @@ void try_gdb(){
     int randnum = rand(), guessnum;
     puts("Guess the number ?");
     asm volatile("1: lea 1b(%%rip), %0;": "=a"(rip)); // get current rip value
-    printf("Current IP = %p\n", rip); 
+    printf("Current IP = 0x%lx\n", rip); 
     scanf("%d", &guessnum);
     if(guessnum == randnum){
         puts("Wow...You are correct.");
@@ -100,24 +103,23 @@ void endianness(){
 }
 
 uint64_t substack(){
-    int varies3 = 0xdeadbeef;
+    uint64_t varies3 = 0xdeadbeef;
     return (uint64_t)&varies3;
 }
 
 void stack(){
-    uint64_t rbp, rsp;
     // asm volatile("1: lea 1b(%%rbp), %0;": "=a"(rbp));
     char varies0[8] = "ABCDEFGH";
     int varies1 = 0x12345678;
     int varies2 = 0x90abcdef;
-    int* a = &varies1;
-    int* b = &varies2;
-    uint64_t end = substack();
-    printf("%p %p\n", (uint64_t)varies0, end);
-    printf("%p\n", stack);
-    for(uint64_t i = end ; i <= (uint64_t)varies0 ; i += 4){
+    register int* a = &varies1;
+    register int* b = &varies2;
+    end = substack();
+    // printf("%p %p\n", (uint64_t)varies0, end);
+    // printf("%p\n", stack);
+    for(pointer = end; pointer <= (uint64_t)varies0 ; pointer += 8){
         // int td;
-        printf("%p : %8x\n", i, *(uint64_t *)(i));
+        printf("0x%lx : %8lx\n", pointer, *(uint64_t *)(pointer));
         // scanf("%d", &td);
         // if(td != *(int *)(i)){
         //     printf("%p wrong. \n", i);
