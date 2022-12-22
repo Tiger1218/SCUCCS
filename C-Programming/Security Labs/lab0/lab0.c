@@ -116,7 +116,7 @@ void stack(){
      *                    3. consider the offset between the start addr of function `stack` and the [stored rip]
      *                    4. consider the offset between the addr of varies0 and the [stored rbp]
      * Why ?
-     * Well if you find it's too difficult, you can run `set SECURITY_DEBUG=1` and restart the program. Than it will show you the stack. 
+     * Well if you find it's too difficult, you can run `export SECURITY_DEBUG=1` and restart the program. Than it will show you the stack. 
      */
     char varies0[8] = "ABCDEFGH";
     int varies1 = 0x12345678;
@@ -128,7 +128,8 @@ void stack(){
     printf("%08lx\n", (uint64_t)stack);
     printf("%08lx\n", (uint64_t)varies0);
     for(register uint64_t pointer = end; pointer <= (uint64_t)varies0 ; pointer += 8){
-        if(!strcmp(getenv("SECURITY_DEBUG"), "1")){
+        char *s = getenv("SECURITY_DEBUG");
+	if(s){
             printf("0x%lx : %8lx\n", pointer, *(uint64_t *)(pointer));
             continue;
         }
@@ -152,7 +153,7 @@ int main(){
      * Enjoy your journey!
      */
     linux_setting();
-    // try_gdb();
+    try_gdb();
     endianness();
     stack();
 
