@@ -16,3 +16,6 @@ $ (a_1, a_2, a_3, \ldots, a_n) $[^[What is the difference between \dots and \ldo
 
 逻辑上相邻，物理上也相邻。
 
+```c
+
+```
