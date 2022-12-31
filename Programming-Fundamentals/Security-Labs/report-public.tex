@@ -406,7 +406,7 @@ $ \mathrm{0x14f7}-\mathrm{0x14c6}=49 $
 
 最后我们需要将存储的eip指针覆盖为我们想要去的地址，也就是 \texttt{0x80492e0}，并且使得覆盖完后的栈顶\footnote{基本的\href{https://www.cnblogs.com/clover-toeic/p/3755401.html}{C语言函数调用栈}知识可以看这篇文章。}为0xdeadbeef。（注意Linux x64是小端序机器）
 
-这是一种Payload：\begin{lstlisting}[style=DOS]00000000 00000000 00000000 00000000 00000000 00000000 00000000 E0920408 EFBEADDE\end{lstlisting}
+这是一种Payload：00000000 00000000 00000000 00000000 00000000 00000000 00000000 E0920408 EFBEADDE
 
 \subsection{solution2}
 
@@ -589,19 +589,19 @@ Problem solved！那就让我们随便试两条汇编指令吧！
 
 既然我们可以执行任意汇编代码，那我们为什么不试着拿Shell权限呢？首先我们需要找到一个放置Shellcode的地方。
 
-回到我们前面给到的这个结构：\begin{lstlisting}[style=DOS] shellcode + padding + ebp + shellcode's start addr \end{lstlisting}
+回到我们前面给到的这个结构： shellcode + padding + ebp + shellcode's start addr 
 
- \texttt{padding + ebp}一共是24Bytes，但是考虑到Shellcode执行阶段可能遇到的 \texttt{push}指令，更好的选择其实是放在 \texttt{shellcode's start addr}的后面。
+\texttt{padding + ebp}一共是24Bytes，但是考虑到Shellcode执行阶段可能遇到的 \texttt{push}指令，更好的选择其实是放在 \texttt{shellcode's start addr}的后面。
 
 这时我们的payload就变成了下面的结构：
 % \footnote{利用 \texttt{int 0x80}执行了 \texttt{/bin/sh}的一段Shellcode}\href{https://shell-storm.org/shellcode/files/shellcode-841.html}{Shellcode}
 
 
-\begin{lstlisting}[style=DOS] padding + ebp + shellcode's start addr + shellcode \end{lstlisting}
+padding + ebp + shellcode's start addr + shellcode
 
 在网上找一个小一点的Shellcode\footnote{利用int 0x80执行了/bin/sh的一段\href{https://shell-storm.org/shellcode/files/shellcode-841.html}{Shellcode}}，我们就得到了我们最终的Payload：
 
-\begin{lstlisting}[style=DOS] 00000000 00000000 00000000 00000000 00000000 00000000 EBP START_ADDR 31C9F7E1 B00B5168 2F2F7368 682F6269 6E89E3CD 80 \end{lstlisting}
+00000000 00000000 00000000 00000000 00000000 00000000 EBP START\_ADDR 31C9F7E1 B00B5168 2F2F7368 682F6269 6E89E3CD 80
 
 \begin{figure}[h]
     \centering

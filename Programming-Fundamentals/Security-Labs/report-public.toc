@@ -1,25 +1,26 @@
-\contentsline {section}{\numberline {1}Intros}{1}{section.1}%
+\contentsline {section}{\numberline {1}Intros}{2}{section.1}%
 \contentsline {section}{\numberline {2}Lab1: Decoding Lab}{2}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Key1 \& Key2}{2}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Key3 \& Key4}{4}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Summary}{7}{subsection.2.3}%
-\contentsline {section}{\numberline {3}Lab2: BufBomb}{7}{section.3}%
-\contentsline {subsection}{\numberline {3.1}solution1}{7}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}solution3}{9}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}solution4/彩蛋}{12}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Summary}{12}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Lab3: Bomb Lab}{13}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Initialize}{13}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}filestream}{13}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}bind}{14}{subsubsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.2}Phase1}{14}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Phase2}{14}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Phase3}{16}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Phase4}{17}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Phase5}{18}{subsection.4.6}%
-\contentsline {subsection}{\numberline {4.7}Phase6}{19}{subsection.4.7}%
-\contentsline {subsubsection}{\numberline {4.7.1}Section1}{19}{subsubsection.4.7.1}%
-\contentsline {subsubsection}{\numberline {4.7.2}Section2}{20}{subsubsection.4.7.2}%
-\contentsline {subsubsection}{\numberline {4.7.3}Section3}{20}{subsubsection.4.7.3}%
-\contentsline {subsubsection}{\numberline {4.7.4}Section4}{21}{subsubsection.4.7.4}%
-\contentsline {section}{\numberline {5}Summary}{22}{section.5}%
+\contentsline {subsection}{\numberline {2.2}Key3 \& Key4}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Summary}{8}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Lab2: BufBomb}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}solution1}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}solution2}{10}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}solution3}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}solution4/彩蛋}{13}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Summary}{14}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Lab3: Bomb Lab}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Initialize}{14}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}filestream}{14}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}bind}{15}{subsubsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.2}Phase1}{15}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Phase2}{15}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Phase3}{17}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Phase4}{18}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Phase5}{19}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Phase6}{20}{subsection.4.7}%
+\contentsline {subsubsection}{\numberline {4.7.1}Section1}{20}{subsubsection.4.7.1}%
+\contentsline {subsubsection}{\numberline {4.7.2}Section2}{21}{subsubsection.4.7.2}%
+\contentsline {subsubsection}{\numberline {4.7.3}Section3}{21}{subsubsection.4.7.3}%
+\contentsline {subsubsection}{\numberline {4.7.4}Section4}{22}{subsubsection.4.7.4}%
+\contentsline {section}{\numberline {5}Summary}{23}{section.5}%
